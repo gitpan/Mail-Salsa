@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Personalize
-# Last Modification: Fri Apr  1 12:25:06 WEST 2005
+# Last Modification: Wed Apr  6 16:09:58 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@ use strict;
 use warnings;
 
 require Exporter;
-use Mail::Salsa::Utils qw(file_path create_file generate_id);
-use Mail::Salsa::Logs qw(logs);
+use Mail::Salsa::Utils qw(file_path create_file generate_id email_components);
+use Mail::Salsa::Logs qw(logs debug);
 use Mail::Salsa::Archive qw(archive_msg);
 use Mail::Salsa::Action::Post;
 
@@ -29,7 +29,7 @@ use Mail::Salsa::Action::Post;
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
 	my $proto = shift;
@@ -166,9 +166,10 @@ sub sendmail4all {
 	(my $outfile = $self->{'message'}) =~ s/\.msg$/\.out/;
 	open(LIST, "<", $listfile);
 	while(<LIST>) {
-		my @fullemail = (/^([^\<]+)[ \t]+\<?([^\@\<\>]+\@[^\@\<\>]+)\>?/);
-		(scalar(@fullemail) == 2) or next;
-		my ($username, $email) = @fullemail;
+		my $fullemail = email_components($_);
+		exists($fullemail->{'address'}) or next;
+		$fullemail->{'username'} = "Mailing List Subscriber" unless(exists($fullemail->{'username'}));
+		my ($username, $email) = ($fullemail->{'username'}, $fullemail->{'address'});
 
 		my $sm = Mail::Salsa::Sendmail->new(
 			'smtp_server' => $self->{'smtp_server'},
@@ -206,7 +207,8 @@ __END__
 
 =head1 NAME
 
-Mail::Salsa::Action::Personalize - Perl extension for blah blah blah
+Mail::Salsa::Action::Personalize - Perl extension for send personalized
+messages to the members of the mailing list.
 
 =head1 SYNOPSIS
 
@@ -243,7 +245,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 by Henrique M. Ribeiro Dias
+Copyright (C) 2005 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

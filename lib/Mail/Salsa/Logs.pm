@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Logs.pm
-# Last Modification: Mon May 31 13:29:08 WEST 2004
+# Last Modification: Wed Apr  6 16:13:12 WEST 2005
 #
-# Copyright (c) 2004 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -29,9 +29,9 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-our @EXPORT = qw(&logs);
+our @EXPORT = qw(&logs &debug);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub logs {
 	my $self = shift;
@@ -61,6 +61,18 @@ sub logs {
 	return();
 }
 
+sub debug {
+	my $self = shift;
+	my $string = shift;
+
+	$string .= "\n" unless($string =~ /\n+$/);
+	open(DEBUG, ">>", "/tmp/salsa.debug") or die("$!");
+	print DEBUG $string;
+	close(DEBUG);
+
+	return();
+}
+
 # Preloaded methods go here.
 
 # Autoload methods go after =cut, and are processed by the autosplit program.
@@ -71,7 +83,8 @@ __END__
 
 =head1 NAME
 
-Mail::Salsa::Logs - Perl extension for blah blah blah
+Mail::Salsa::Logs - Perl extension for debugging and logging the mailing
+lists
 
 =head1 SYNOPSIS
 
@@ -108,7 +121,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 by Henrique M. Ribeiro Dias
+Copyright (C) 2005 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

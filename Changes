@@ -1,5 +1,19 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.02  Wed Apr  6 16:11:20 WEST 2005
+	- Mail::Salsa - The version has been updated to 0.02.
+	- Mail::Salsa::Action::Admin - A bug in patterns that check the
+	  validity of the email has been fixed. The version has been
+	  updated to 0.02.
+	- Mail::Salsa::Action::Personalize - The function sendmail4all
+	  has changed to handling the username in email addresses. The
+	  version has been updated to 0.02.
+	- Mail::Salsa::Utils - "email_components" function has been 
+	  added and some bugs in email address patterns have been fixed. 
+	  The version has been updated to 0.02.
+	- Mail::Salsa::Logs - A debug method were added and the version
+	  has been updated to 0.02.
+
 0.01  Fri Apr  1 12:41:01 WEST 2005
 	- original version; created by h2xs 1.23 with options
 		-X -n Mail::Salsa

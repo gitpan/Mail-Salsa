@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Post.pm
-# Last Modification: Fri Apr  1 16:54:41 WEST 2005
+# Last Modification: Wed Apr  6 16:03:46 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@ require Exporter;
 #use AutoLoader qw(AUTOLOAD);
 use SelfLoader;
 use Mail::Salsa::Utils qw(file_path create_file generate_id);
-use Mail::Salsa::Logs qw(logs);
+use Mail::Salsa::Logs qw(logs debug);
 use Mail::Salsa::Archive qw(archive_msg);
 use MIME::QuotedPrint qw();
 

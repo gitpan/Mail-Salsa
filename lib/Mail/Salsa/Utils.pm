@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Utils.pm
-# Last Modification: Fri Jul  2 13:31:43 WEST 2004
+# Last Modification: Tue Apr  5 11:29:42 WEST 2005
 #
-# Copyright (c) 2004 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -33,9 +33,14 @@ our @ISA = qw(Exporter);
 
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-our @EXPORT = qw(&file_path &generate_id &string_date &host_addresses &create_file);
+our @EXPORT = qw(&file_path &generate_id &string_date &host_addresses &create_file &email_components);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
+
+my @patterns = (
+	'[^\<\>\@\(\)]+',
+	'[^\@<>(),;:\s]+\@([\w\-]+\.)+[a-zA-Z]{2,4}'
+);
 
 sub create_file {
 	my $file = shift;
@@ -118,9 +123,17 @@ sub string_date {
 		$year + 1900, $mon + 1, $mday, $hour, $min, $sec);
 }
 
+sub email_components {
+	local $_ = shift;
+
+	/^($patterns[0]) +<($patterns[1])>\s+/ and return({'username' => $1, 'address' => $2});
+	/^<?($patterns[1])>?\s+/ and return({'address' => $1});
+	return({});
+}
+
 sub only_addresses {
 	for(my $i=0; $i < scalar(@{$_[0]}); $i++) {
-		$_[0]->[$i] =~ /\<?([^ \<\@]+\@[^ \>\@]+)\>?/;
+		$_[0]->[$i] =~ /\<?($patterns[1])\>?/;
 		$_[0]->[$i] = $1;
 	}
 	return();
@@ -136,7 +149,7 @@ sub check4email {
 	open(LIST, "<", $file) or die("$!");
 	while(<LIST>) { 
 		chomp;
-		/\<?([^ \>\@]+\@[^ \>\@]+)\>?/o;
+		/\<?($patterns[1])\>?/o;
 		$1 or next;
 		push(@emexist, $1) if(exists($hash{$1}));
 	}
@@ -206,7 +219,7 @@ __END__
 
 =head1 NAME
 
-Mail::Salsa::Utils - Perl extension for blah blah blah
+Mail::Salsa::Utils - Utility functions used by some Mail::Salsa modules.
 
 =head1 SYNOPSIS
 
@@ -243,7 +256,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.pt@E<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 by Henrique M. Ribeiro Dias
+Copyright (C) 2005 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,
