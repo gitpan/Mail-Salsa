@@ -1,0 +1,5 @@
+Revision history for Perl extension Mail::Salsa.
+
+0.01  Fri Apr  1 12:41:01 WEST 2005
+	- original version; created by h2xs 1.23 with options
+		-X -n Mail::Salsa
