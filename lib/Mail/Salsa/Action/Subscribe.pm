@@ -136,7 +136,8 @@ __END__
 
 =head1 NAME
 
-Mail::Salsa::Action::Subscribe - Perl extension for blah blah blah
+Mail::Salsa::Action::Subscribe - Extension to subscribe the members to
+the mailing list.
 
 =head1 SYNOPSIS
 

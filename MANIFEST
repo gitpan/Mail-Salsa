@@ -33,7 +33,7 @@ t/Mail-Salsa-Sendmail.t
 t/Mail-Salsa-Template.t
 t/Mail-Salsa-Utils.t
 t/Mail-Salsa.t
-tools/cucaracha
-tools/cucaracha.conf
-tools/fiesta
+bin/cucaracha
+bin/cucaracha.conf
+bin/fiesta
 META.yml                                 Module meta-data (added by MakeMaker)

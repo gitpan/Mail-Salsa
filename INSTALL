@@ -7,15 +7,15 @@
 - Unpack the module and install it.
 
 # tar xvfz Mail-Salsa-x.xx.tar.gz
-# cd Mail-Salsa/tools
+# cd Mail-Salsa-x.xx/bin
 # perl Makefile.PL
 # make
 # make test
 # make install 
 
-# cp tools/fiesta /usr/local/bin
-# cp tools/cucaracha /usr/local/bin
-# cp tools/cucaracha.conf /etc/cucaracha.conf
+# cp bin/fiesta /usr/local/bin
+# cp bin/cucaracha /usr/local/bin
+# cp bin/cucaracha.conf /etc/cucaracha.conf
 # chmod 755 /usr/local/bin/cucaracha
 # chmod 755 /usr/local/bin/fiesta
 

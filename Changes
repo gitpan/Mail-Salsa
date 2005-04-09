@@ -1,5 +1,15 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.03  Sat Apr  9 20:10:51 WEST 2005
+	- bin/fiesta - The option "personalized" has been added and some 
+	  code was cleaned up. The version has been updated to 0.02.
+	- The directory "tools" changed the name to "bin".
+	- Mail::Salsa::Action::Unsubscribe - A bug in formatation
+	  of documentation was fixed and the version has been updated to
+	  0.02.
+	- Mail::Salsa::Lang::EN - The documentation section has been
+	  added. The version has been updated to 0.02.
+
 0.02  Wed Apr  6 16:11:20 WEST 2005
 	- Mail::Salsa - The version has been updated to 0.02.
 	- Mail::Salsa::Action::Admin - A bug in patterns that check the

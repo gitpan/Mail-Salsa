@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Action/Unsubscribe.pm
-# Last Modification: Thu Jul  1 12:02:43 WEST 2004
+# Last Modification: Thu Apr  7 12:54:38 WEST 2005
 #
-# Copyright (c) 2004 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -32,7 +32,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
 	my $proto = shift;
@@ -157,7 +157,8 @@ __END__
 
 =head1 NAME
 
-Mail::Salsa::Action::Unsunscribe - Perl extension for blah blah blah
+Mail::Salsa::Action::Unsunscribe - Extension to unsubscribe the members
+from the mailing list.
 
 =head1 SYNOPSIS
 
@@ -165,20 +166,20 @@ Mail::Salsa::Action::Unsunscribe - Perl extension for blah blah blah
 
 =head1 DESCRIPTION
 
-Stub documentation for Mail::Salsa, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+Stub documentation for Mail::Salsa::Action::Unsubscribe, created by
+h2xs. It looks like the author of the extension was negligent enough to
+leave the stub unedited.
 
 Blah blah blah.
 
-To unsubscribe my self from a mailing list:
+  To unsubscribe my self from a mailing list:
 
-To: list-unsubscribe@example.org
+  To: list-unsubscribe@example.org
 
-To subscribe other people from a mailing list:
+  To subscribe other people from a mailing list:
 
-To: list-unsubscribe@example.org
-Cc: mywife@example.org, myfather@example.org
+  To: list-unsubscribe@example.org
+  Cc: mywife@example.org, myfather@example.org
 
 =head2 EXPORT
 
@@ -203,7 +204,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 by Henrique M. Ribeiro Dias
+Copyright (C) 2005 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

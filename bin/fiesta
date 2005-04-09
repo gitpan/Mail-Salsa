@@ -3,10 +3,10 @@
 #
 # Fiesta
 #
-# Copyright (c) 2004 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
-# Last Change: Fri Nov  5 16:53:37 WET 2004
+# Last Change: Sat Apr  9 20:09:19 WEST 2005
 #
 ###########################################################################
 use strict;
@@ -15,7 +15,7 @@ use Getopt::Long();
 use vars qw($VERSION);
 use Mail::Salsa::Config;
 
-$VERSION = 0.01;
+$VERSION = 0.02;
 
 my $cf = "/etc/cucaracha.conf";
 my $virtusertable = "/etc/mail/virtusertable";
@@ -28,7 +28,7 @@ for my $dir ("/usr/adm/sm.bin", "/etc/smrsh") {
 }
 $deliver or die("$!");
 
-my ($list, $owner, $action) = ("", "", "");
+my ($list, $owner, $action, $personalized) = ("", "", "", "");
 
 my $config = Mail::Salsa::Config::get_config(
 	file     => $cf,
@@ -43,18 +43,20 @@ my @dirs = ($config->{'list_dir'}, $config->{'archive_dir'}, $config->{'logs_dir
 
 my $opt = {};
 Getopt::Long::GetOptions($opt,
-	'help|?'    => \&usage,
-        'add|a'     => sub { $action = "add"},
-        'remove|r'  => sub { $action = "remove"},
-	'owner|o=s' => \$owner,
-	'list|l=s'  => \$list,
-	'update|u'  => sub { $action = "update"},
-	'version|v' => \&showversion,
+	'help|?'           => \&usage,
+        'add|a'            => sub { $action = "add"},
+        'remove|r'         => sub { $action = "remove"},
+	'owner|o=s'        => \$owner,
+	'personalized|p=s' => \$personalized,
+	'list|l=s'         => \$list,
+	'update|u'         => sub { $action = "update"},
+	'version|v'        => \&showversion,
 ) or die <<EOUSAGE;
 usage: $0
 
   --list=<email>
   --owner=<email>
+  --personalized=<bool>
   --add
   --remove
   --update
@@ -72,8 +74,11 @@ my %actions = (
 exists($actions{$action}) or &usage();
 
 ($list =~ /^[^\@]+\@[^\@]+/) or &usage();
-if($action eq "add" or $action eq "update") {
-	$owner =~ /^[^\@]+\@[^\@]+/ or &usage();
+if($action eq "add") { $owner =~ /^[^\@]+\@[^\@]+/ or &usage(); }
+if($action eq "update") {
+	($owner or $personalized) or &usage();
+	if($owner) { $owner =~ /^[^\@]+\@[^\@]+/ or &usage(); }
+	if($personalized) { ($personalized eq "yes" or $personalized eq "no") or &usage(); }
 }
 
 &main();
@@ -85,7 +90,7 @@ sub main {
 	if($action eq "add") {
 		print "Add the mailing list \"$list\":\n";
 
-		if(&add_mlist($virtusertable, "vtable", $list, $owner)) {
+		if(&add_mlist($virtusertable, "vtable", $list, $owner, $personalized)) {
 			print "already exists in";
 		} else {
 			$update = 1;
@@ -93,7 +98,7 @@ sub main {
 		}
 		print " \"$virtusertable\" file...\n";
 
-		if(&add_mlist($salsa_aliases, "aliases", $list, $owner)) {
+		if(&add_mlist($salsa_aliases, "aliases", $list, $owner, $personalized)) {
 			print "already exists in";
 		} else {
 			$update = 1;
@@ -109,7 +114,7 @@ sub main {
 		($ok eq "y" or $ok eq "Y") or exit();
 
 		if(&remove_mlist($virtusertable, "vtable", $list)) {
-			print "not exist in";
+			print "not exists in";
 		} else {
 			$update = 1;
 			print "has been removed from";
@@ -117,23 +122,32 @@ sub main {
 		print " \"$virtusertable\" file...\n";
 
 		if(&remove_mlist($salsa_aliases, "aliases", $list)) {
-			print "not exist in";
+			print "not exists in";
 		} else {
 			$update = 1;
 			print "has been removed from";
 		}
 		print " \"$salsa_aliases\" file...\n";
 	} elsif($action eq "update") {
-		print "Update the owner of the mailing list \"$list\":\n";
-		if(my $id = &update_mlist($list, $owner, $virtusertable)) {
-			if($id == 2) {
-				print "The owner is the same.\n";
-			} elsif($id == 1) {
-				print "The mailing list not exist.\n";
+		if($owner) {
+			print "Update the owner of mailing list \"$list\":\n";
+			if(my $id = &update_vutable($list, $virtusertable, $owner)) {
+				if($id == 2) { print "The owner is the same.\n"; }
+				elsif($id == 1) { print "The mailing list not exists.\n"; }
+			} else {
+				$update = 1;
+				print "The owner has been changed.\n";
 			}
-		} else {
-			$update = 1;
-			print "The owner has been changed.\n";
+		}
+		if($personalized) {
+			print "Change the type of \"$list\" mailing list:\n";
+			if(my $id = &update_aliases($list, $salsa_aliases, $personalized)) {
+				if($id == 2) { print "The type is the same.\n"; }
+				elsif($id == 1) { print "The mailing list not exists.\n"; }
+			} else {
+				$update = 1;
+				print "The type has been changed.\n";
+			}
 		}
 	}
 	if($update) {
@@ -178,6 +192,10 @@ sub rmlistfiles {
 	for my $dir (@{$dirs}) {
 		$dir =~ s/\/+$//;
 		$dir =~ /\/salsa\/?/ or die("$!\n");
+		unless(-d $dir) {
+			print "The directory \"$dir\" not exists!\n";
+			next;
+		}
 		opendir(DIRECTORY, $dir) or die("Can't opendir $dir: $!\n");
 		while(defined(my $file = readdir(DIRECTORY))) {
 			next if($file =~ /^\.\.?$/);
@@ -214,41 +232,89 @@ sub rmlistfiles {
 	return();
 }
 
-#---update_mlist------------------------------------------------------------
+#---update_file-------------------------------------------------------------
 
-sub update_mlist {
-	my $list = shift;
-	my $owner = shift;
+sub update_file {
 	my $file = shift;
+	my $callback = shift;
 
-	my ($name, $domain) = split(/\@/, $list);
-	my $pattern = "\^$name-owner\\\@$domain\[ \\t\]\+(\[\^\\\@\]\+\\\@\[\^\\\@\]\+)\\s\$";
+	die("The file \"$file\.lock\" already exists: $!") if(-e "$file\.lock");
 	my $notexist = 1;
 	open(FILE, "<", $file) or die("$!");
 	flock(FILE, LOCK_EX);
-	open(BACKUP, ">", "$file\.bak") or die("$!");
-	select(BACKUP);
+	open(UPDATE, ">", "$file\.lock") or die("$!");
+	select(UPDATE);
 	while(<FILE>) {
-		if(/$pattern/) {
-			if($1 eq $owner) {
-				$notexist = 2;
-				last;
-			} else {
-				$notexist = 0;
-				print BACKUP "$name-owner\@$domain\t$owner\n";
-				next;
-			}
+		if($notexist == 1 || $notexist == 3) {
+			my $res = $callback->($notexist);
+			if($res == 1) { next; }
+			elsif($res == 2) { last; }
 		}
-		print BACKUP $_;
+		print UPDATE $_;
 	}
-	close(BACKUP);
+	$notexist = 0 if($notexist == 3);
+	close(UPDATE);
 	flock(FILE, LOCK_UN);
 	close(FILE);
 
-	if($notexist) { unlink("$file\.bak") or die("$!"); }
-	else { rename("$file\.bak", $file) or die("$!"); }
+	if($notexist) { unlink("$file\.lock") or die("$!"); }
+	else { rename("$file\.lock", $file) or die("$!"); }
 	select(STDOUT);
+
 	return($notexist);
+}
+
+#---update_aliases----------------------------------------------------------
+
+sub update_aliases {
+	my $list = shift;
+	my $file = shift;
+	my $personalized = shift;
+
+	my ($name, $domain) = split(/\@/, $list);
+	my $pattern = "\^$name\\\_at_$domain\\\: +\\\"[^\\\"]+ (P[a-z]+)\\\"\\s\$";
+	my $type = $personalized eq "yes" ? "Personalize" : "Post";
+
+	my $callback = sub {
+		if(/$pattern/) {
+			my $oldtype = $1;
+			if($type eq $oldtype) {
+				$_[0] = 2;
+				return(2);
+			} else {
+				s/$oldtype(?=\")/$type/;
+				$_[0] = 0;
+			}
+		}
+		return(0);
+	};
+
+	return(&update_file($file, $callback));
+}
+
+#---upadte_vutable----------------------------------------------------------
+
+sub update_vutable {
+	my $list = shift;
+	my $file = shift;
+	my $owner = shift;
+
+	my ($name, $domain) = split(/\@/, $list);
+	my $pattern = "\^$name-owner\\\@$domain\[ \\t\]\+(\[\^\\\@\]\+\\\@\[\^\\\@\]\+)\\s\$";
+
+	my $callback = sub {
+		if(/$pattern/) {
+			if($1 eq $owner) {
+				$_[0] = 2;
+				return(2);
+			} else {
+				$_[0] = 0;
+				$_ = "$name-owner\@$domain\t$owner\n";
+			}
+		}
+		return(0);
+	};
+	return(&update_file($file, $callback));
 }
 
 #---remove_mlist------------------------------------------------------------
@@ -259,29 +325,19 @@ sub remove_mlist {
 	my $list = shift;
 
 	my ($name, $domain) = split(/\@/, $list);
-	my $notexist = 1;
-
 	my %pattern = (
 		'aliases' => "\^$name\-\?\[\^_\]\*_at_$domain\: \+",
 		'vtable'  => "\^$name\-\?\[\^\@\]\*\@$domain\[ \\t\]\+"
 	);
 
-	open(FILE, "<", $file) or die("$!");
-	flock(FILE, LOCK_EX);
-	open(BACKUP, ">", "$file\.bak") or die("$!");
-	select(BACKUP);
-	while(<FILE>) {
-		if(/$pattern{$type}/) { $notexist = 0; next; }
-		print BACKUP $_;
-	}
-	close(BACKUP);
-	flock(FILE, LOCK_UN);
-	close(FILE);
-                                                                                
-	if($notexist) { unlink("$file\.bak") or die("$!"); }
-	else { rename("$file\.bak", $file) or die("$!"); }
-	select(STDOUT);
-	return($notexist);
+	my $callback = sub {
+		if(/$pattern{$type}/) {
+			$_[0] = 3;
+			return(1);
+		}
+		return(0);
+	};
+	return(&update_file($file, $callback));
 }
 
 #---add_mlist---------------------------------------------------------------
@@ -291,6 +347,7 @@ sub add_mlist {
 	my $type = shift;
 	my $list = shift;
 	my $owner = shift;
+	my $personalized = shift || "no";
 
 	my ($name, $domain) = split(/\@/, $list);
 	my $exist = 0;
@@ -300,24 +357,26 @@ sub add_mlist {
 		'vtable'  => "\^$list\[ \\t\]\+",
 	);
 
+	die("The file \"$file\.lock\" already exists: $!") if(-e "$file\.lock");
+
 	open(FILE, "<", $file) or die("$!");
 	flock(FILE, LOCK_EX);
-	open(BACKUP, ">", "$file\.bak") or die("$!");
-	select(BACKUP);
+	open(UPDATE, ">", "$file\.lock") or die("$!");
+	select(UPDATE);
 	while(<FILE>) {
 		if(/$pattern{$type}/) { $exist = 1; last; }
-		print BACKUP $_;
+		print UPDATE $_;
         }
 	unless($exist) {
-		&addlines2aliases(\*BACKUP, $list) if($type eq "aliases");
-		&addlines2vtable(\*BACKUP, $list, $owner) if($type eq "vtable");
+		&addlines2aliases(\*UPDATE, $list, $personalized) if($type eq "aliases");
+		&addlines2vtable(\*UPDATE, $list, $owner) if($type eq "vtable");
 	}
-	close(BACKUP);
+	close(UPDATE);
 	flock(FILE, LOCK_UN);
 	close(FILE);
 
-	if($exist) { unlink("$file\.bak") or die("$!"); } 
-	else { rename("$file\.bak", $file) or die("$!"); }
+	if($exist) { unlink("$file\.lock") or die("$!"); } 
+	else { rename("$file\.lock", $file) or die("$!"); }
 	select(STDOUT);
 
 	return($exist);
@@ -328,11 +387,13 @@ sub add_mlist {
 sub addlines2aliases {
 	my $fh = shift;
 	my $list = shift;
-	
+	my $personalized = shift;
+
 	my ($name, $domain) = split(/\@/, $list);
+	my $flag = ($personalized eq "yes" ? "Personalize" : "Post");
 
 	print $fh <<"EOA";
-$name\_at_$domain: "\|$deliver $list Post"
+$name\_at_$domain: "\|$deliver $list $flag"
 $name-subscribe_at_$domain: "\|$deliver $list Subscribe"
 $name-unsubscribe_at_$domain: "\|$deliver $list Unsubscribe"
 $name-admin_at_$domain: "\|$deliver $list Admin"
@@ -376,6 +437,10 @@ Possible options are:
 
 	--owner=<email>         Where <email> is the owner address of the
                                 mailing list.
+
+        --personalized=<bool>   Set this option if you pretended to have
+                                personalized messages, where <bool> is
+                                "yes" or "no" (default is no).
  
         --add                   Add a new mailing list to the system.
 
@@ -393,6 +458,11 @@ Example:
 
     fiesta --add --list=salsa-dev\@mydomain.org --owner=hdias\@aesbuc.pt
 
+  * Add a personalized "salsa-dev\@mydomain.org" mailing list
+
+    fiesta --add --list=salsa-dev\@mydomain.org --owner=hdias\@aesbuc.pt \
+    --personalized=yes
+
   * Remove "salsa-dev\@mydomain.org" mailing list
 
     fiesta --remove --list=salsa-dev\@mydomain.org
@@ -400,6 +470,11 @@ Example:
   * Change the owner of "salsa-dev\@mydomain.org" mailing list
 
     fiesta --update --list=salsa-dev\@mydomain.org --owner=hdias\@perl.org
+
+  * Change the type of "salsa-dev\@mydomain.org" mailing list from
+    "Post" to "Personalize"
+
+    fiesta --update --list=salsa-dev\@mydomain.org --personalized=yes
 
 USAGE
 	exit 1;
@@ -410,7 +485,7 @@ USAGE
 sub showversion {
 	print <<"EOV";
 Fiesta $VERSION
-Copyright (c) 2004 Henrique Dias <hdias\@aesbuc.pt>
+Copyright (c) 2005 Henrique Dias <hdias\@aesbuc.pt>
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 EOV
