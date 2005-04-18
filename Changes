@@ -1,6 +1,22 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.04  Mon Apr 18 17:51:02 WEST 2005
+	- Mail::Salsa - The version has been updated to 0.04.
+	- The Makefile.PL was changed to install the fiesta and
+	  cucaracha scripts.
+	- bin/fiesta - A "Return" action has been added and the version
+          was updated to 0.03.
+	- bin/cucaracha - A "Return" action has been added and the
+          version was updated to 0.02.
+	- A new module Action "Mail::Salsa::Action::Return" were added.
+	- Added Mail-Salsa-Action-Return.t test script.
+	- Mail::Salsa::Action::Unsubscribe - A minor bug in
+          documentation were fixed. The method "remove_from_list" has
+          been rewrited and exported. The version has been updated
+	  to 0.03.
+
 0.03  Sat Apr  9 20:10:51 WEST 2005
+	- Mail::Salsa - The version has been updated to 0.03.
 	- bin/fiesta - The option "personalized" has been added and some 
 	  code was cleaned up. The version has been updated to 0.02.
 	- The directory "tools" changed the name to "bin".

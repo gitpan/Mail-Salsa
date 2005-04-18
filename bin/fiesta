@@ -6,7 +6,7 @@
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
-# Last Change: Sat Apr  9 20:09:19 WEST 2005
+# Last Change: Mon Apr 11 19:23:33 WEST 2005
 #
 ###########################################################################
 use strict;
@@ -15,7 +15,7 @@ use Getopt::Long();
 use vars qw($VERSION);
 use Mail::Salsa::Config;
 
-$VERSION = 0.02;
+$VERSION = 0.03;
 
 my $cf = "/etc/cucaracha.conf";
 my $virtusertable = "/etc/mail/virtusertable";
@@ -398,6 +398,7 @@ $name-subscribe_at_$domain: "\|$deliver $list Subscribe"
 $name-unsubscribe_at_$domain: "\|$deliver $list Unsubscribe"
 $name-admin_at_$domain: "\|$deliver $list Admin"
 $name-help_at_$domain: "\|$deliver $list Help"
+$name-return_at_$domain: "\|$deliver $list Return"
 $name-outgoing_at_$domain: $name-owner\@$domain
 EOA
 	return();
@@ -419,7 +420,7 @@ $name-subscribe\@$domain	$name-subscribe_at_$domain
 $name-unsubscribe\@$domain	$name-unsubscribe_at_$domain
 $name-admin\@$domain	$name-admin_at_$domain
 $name-help\@$domain	$name-help_at_$domain
-$name-bounces\@$domain	$name-owner\@$domain
+$name-return\@$domain	$name-return_at_$domain
 EOA
 	return();
 }

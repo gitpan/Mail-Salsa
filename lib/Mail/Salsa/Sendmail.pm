@@ -222,7 +222,7 @@ Mail::Salsa::Sendmail - Perl extension for blah blah blah
     'timeout'     => 120,
   );
   $sm->everything(
-    'mail_from' => "$name\-bounces\@$domain",
+    'mail_from' => "$name\-return\@$domain",
     'rcpt_to'   => ["hdias\@aesbuc.pt"],
     'list_file' => $listfile,
     'data'      => sub { my $handle = shift; print $handle "Hello!\n"; }

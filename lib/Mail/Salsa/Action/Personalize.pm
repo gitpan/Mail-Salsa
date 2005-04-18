@@ -177,7 +177,7 @@ sub sendmail4all {
 			'timeout'     => $self->{'timeout'},
 		);
 		$sm->helo();
-		$sm->mail_from("$name\-bounces\@$domain");
+		$sm->mail_from("$name\-return\@$domain");
 		$sm->rcpt_to('addresses' => [$email]);
 		$sm->data(sub {
 			my $handle = shift;

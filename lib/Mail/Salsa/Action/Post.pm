@@ -264,7 +264,7 @@ sub sendmail4all {
 		smtp_port   => 25,
 	);
 	$sm->everything(
-		mail_from => "$name\-bounces\@$domain",
+		mail_from => "$name\-return\@$domain",
 		list_file => $listfile,
 		data      => $refsub
 	);

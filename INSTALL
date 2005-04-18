@@ -13,21 +13,17 @@
 # make test
 # make install 
 
-# cp bin/fiesta /usr/local/bin
-# cp bin/cucaracha /usr/local/bin
 # cp bin/cucaracha.conf /etc/cucaracha.conf
-# chmod 755 /usr/local/bin/cucaracha
-# chmod 755 /usr/local/bin/fiesta
 
 - Gentoo Linux
 
 # cd /usr/adm/sm.bin
-# ln -s /usr/local/bin/cucaracha cucaracha
+# ln -s /usr/bin/cucaracha cucaracha
 
 - RedHat Linux
 
 # cd /etc/smrsh
-# ln -s /usr/local/bin/cucaracha cucaracha
+# ln -s /usr/bin/cucaracha cucaracha
 
 - Edit cucaracha.conf
 

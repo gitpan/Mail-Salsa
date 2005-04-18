@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Unsubscribe.pm
-# Last Modification: Thu Apr  7 12:54:38 WEST 2005
+# Last Modification: Mon Apr 18 12:07:28 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -30,9 +30,9 @@ our @ISA = qw(Exporter);
 
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-our @EXPORT = qw();
+our @EXPORT = qw(&remove_from_list);
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub new {
 	my $proto = shift;
@@ -90,7 +90,7 @@ sub process_msg {
 	my $kfile = file_path($self->{'list'}, $self->{'list_dir'}, 'stamp.txt');
 	if(my $stamp = Mail::Salsa::Utils::get_key($kfile)) {
 		if(my $human = Mail::Salsa::Utils::lookup4key($self->{'message'}, $stamp)) {
-			if($self->remove_from_list()) {
+			if($self->remove_from_list($file, { $self->{'from'} => 0 })) {
 				Mail::Salsa::Utils::tplsendmail(
 					smtp_server => $self->{'smtp_server'},
 					timeout     => $self->{'timeout'},
@@ -125,18 +125,22 @@ sub process_msg {
 }
 
 sub remove_from_list {
-	my $self = shift;
+	my $file = shift;
+	my $addrs = shift;
 
-	my $exist = 0;
-	my $addrs = $self->{'from'};
-	my $file = file_path($self->{'list'}, $self->{'list_dir'}, "list\.txt");
+	my $pattern = '[^\@<>(),;:\s]+\@([\w\-]+\.)+[a-zA-Z]{2,4}';
+	my $n = (my $exist) = scalar(keys(%{$addrs}));
 	open(LIST, "<", $file) or die("$!");
 	flock(LIST, LOCK_EX);
 	open(TMPLIST, ">", "$file\.tmp") or die("$!");
 	select(TMPLIST);
 	while(<LIST>) {
-		if(/\b$addrs\b/o) {
-			$exist = 1;
+		if($exist &&
+			/^[^\#]/ &&
+				/<?($pattern)>?/ &&
+					exists($addrs->{$1})) {
+			$addrs->{$1} = 1;
+			$exist--;			
 			next;
 		}
 		print TMPLIST $_;
@@ -144,9 +148,9 @@ sub remove_from_list {
 	close(TMPLIST);
 	flock(LIST, LOCK_UN);
 	close(LIST);
-	if($exist) { rename("$file\.tmp", $file); }
-	else {  unlink("$file\.tmp"); }
-	return($exist);
+	if($exist < $n) { rename("$file\.tmp", $file); }
+	else { unlink("$file\.tmp"); }
+	return($n - $exist);
 }
 
 # Autoload methods go after =cut, and are processed by the autosplit program.
@@ -172,11 +176,11 @@ leave the stub unedited.
 
 Blah blah blah.
 
-  To unsubscribe my self from a mailing list:
+  To unsubscribe my self from a mailing list send a email to:
 
   To: list-unsubscribe@example.org
 
-  To subscribe other people from a mailing list:
+  To unsubscribe other people from a mailing list send a email to:
 
   To: list-unsubscribe@example.org
   Cc: mywife@example.org, myfather@example.org

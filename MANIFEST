@@ -11,6 +11,7 @@ lib/Mail/Salsa/Action/Admin.pm
 lib/Mail/Salsa/Action/Help.pm
 lib/Mail/Salsa/Action/Personalize.pm
 lib/Mail/Salsa/Action/Post.pm
+lib/Mail/Salsa/Action/Return.pm
 lib/Mail/Salsa/Action/Subscribe.pm
 lib/Mail/Salsa/Action/Unsubscribe.pm
 lib/Mail/Salsa/Archive.pm
@@ -24,6 +25,7 @@ t/Mail-Salsa-Action-Admin.t
 t/Mail-Salsa-Action-Help.t
 t/Mail-Salsa-Action-Personalize.t
 t/Mail-Salsa-Action-Post.t
+t/Mail-Salsa-Action-Return.t
 t/Mail-Salsa-Action-Subscribe.t
 t/Mail-Salsa-Action-Unsubscribe.t
 t/Mail-Salsa-Archive.t
