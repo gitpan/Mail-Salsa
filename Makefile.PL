@@ -3,7 +3,19 @@ use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 
-my @scripts = qw(cucaracha fiesta);
+my $DEFAULTINSTSCRIPT = "/usr/local/bin";
+my @scripts = qw(cucaracha fiesta salsaconfig);
+
+print "Directory to install scripts \[$DEFAULTINSTSCRIPT\]: ";
+my $INSTALLSCRIPT = <>;
+chomp $INSTALLSCRIPT;
+
+if($INSTALLSCRIPT) {
+	if(-d $INSTALLSCRIPT) {
+		$DEFAULTINSTSCRIPT = $INSTALLSCRIPT;
+	} else { die("$!"); }
+}
+print "The scripts will be installed in \"$DEFAULTINSTSCRIPT\" directory...\n";
 
 WriteMakefile(
     NAME              => 'Mail::Salsa',
@@ -16,5 +28,6 @@ WriteMakefile(
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Mail/Salsa.pm', # retrieve abstract from module
        AUTHOR         => 'Henrique M. Riberiro Dias <hdias@aesbuc.pt>') : ()),
-    EXE_FILES => [ map { "bin/$_" } @scripts ],
+    EXE_FILES         => [ map { "bin/$_" } @scripts ],
+    INSTALLSCRIPT     => $DEFAULTINSTSCRIPT
 );

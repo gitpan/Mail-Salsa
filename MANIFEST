@@ -1,3 +1,6 @@
+bin/cucaracha
+bin/fiesta
+bin/salsaconfig
 Changes
 examples/attachments.txt
 examples/restrict.txt
@@ -35,7 +38,4 @@ t/Mail-Salsa-Sendmail.t
 t/Mail-Salsa-Template.t
 t/Mail-Salsa-Utils.t
 t/Mail-Salsa.t
-bin/cucaracha
-bin/cucaracha.conf
-bin/fiesta
 META.yml                                 Module meta-data (added by MakeMaker)

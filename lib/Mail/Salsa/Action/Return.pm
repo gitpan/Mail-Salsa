@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Return.pm
-# Last Modification: Mon Apr 18 12:32:17 WEST 2005
+# Last Modification: Wed Apr 20 17:09:05 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -13,10 +13,10 @@ use strict;
 use warnings;
 
 require Exporter;
-use AutoLoader qw(AUTOLOAD);
 use Mail::Salsa::Logs qw(logs);
 use Mail::Salsa::Action::Unsubscribe qw(remove_from_list);
 use Mail::Salsa::Utils qw(file_path);
+use SelfLoader;
 
 our @ISA = qw(Exporter);
 
@@ -32,6 +32,8 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 our $VERSION = '0.01';
+
+SelfLoader->load_stubs();
 
 sub new {
 	my $proto = shift;
@@ -63,12 +65,9 @@ sub find_wrong_email {
 	my $file = shift;
 
 	my %addresses = ();
-###	my $pattern = '[^\@<>(),;:\s]+\@([\w\-]+\.)+[a-zA-Z]{2,4}';
-	my $pattern = '^550 5\.1\.1 \<?([^\>\@ ]+\@[^\> ]+)\>?\.\.\. User unknown\s+';
 	open(FILE, "<", $file) or return({});
 	while(<FILE>) {
-###		if(/<?($pattern)>?/) {
-		if(/$pattern/) { exists($addresses{$1}) or $addresses{$1} = 0; }
+		if(my $email = &look4email($_)) { exists($addresses{$email}) or $addresses{$email} = 0; }
 	}
 	close(FILE);
 	return(\%addresses);
@@ -77,6 +76,18 @@ sub find_wrong_email {
 # Autoload methods go after =cut, and are processed by the autosplit program.
 
 1;
+
+__DATA__
+
+sub look4email {
+	local $_ = shift;
+
+	/^550 5\.1\.1 \<?([^\>\@ ]+\@[^\> ]+)\>?\.\.\. User unknown\s+/ and return($1);
+	/450 \<?([^\>\@ ]+\@[^\> ]+)\>?\: Recipient address rejected\: User unknown/ and return($1);
+
+	return(0);
+}
+
 __END__
 # Below is stub documentation for your module. You'd better edit it!
 

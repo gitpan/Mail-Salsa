@@ -17,6 +17,7 @@ To install this module type the following:
    make
    make test
    make install
+   salsaconfig
 
 DEPENDENCIES
 

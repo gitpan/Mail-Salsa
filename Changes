@@ -1,5 +1,17 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.05  Wed Apr 20 17:04:50 WEST 2005
+	- Mail::Salsa - The version has been updated to 0.05.
+	- The Makefile.PL was changed again to setup the initial
+	  scripts directory.
+	- Mail::Salsa::Utils - The function "make_dir_rec" has been 
+	  exported and the version was changed to 0.03.
+	- Mail::Salsa::Action::Return - The function "look4email" has 
+	  been added.
+	- The file "cucaracha.conf" has been removed from bin directory.
+	- A new tool to automatic generate the global configuration file
+	  has been added.
+
 0.04  Mon Apr 18 17:51:02 WEST 2005
 	- Mail::Salsa - The version has been updated to 0.04.
 	- The Makefile.PL was changed to install the fiesta and

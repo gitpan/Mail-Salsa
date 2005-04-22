@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Utils.pm
-# Last Modification: Tue Apr  5 11:29:42 WEST 2005
+# Last Modification: Tue Apr 19 20:01:33 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -33,9 +33,9 @@ our @ISA = qw(Exporter);
 
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-our @EXPORT = qw(&file_path &generate_id &string_date &host_addresses &create_file &email_components);
+our @EXPORT = qw(&file_path &generate_id &string_date &host_addresses &create_file &email_components &make_dir_rec);
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my @patterns = (
 	'[^\<\>\@\(\)]+',

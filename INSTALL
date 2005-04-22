@@ -1,9 +1,3 @@
-- Create salsa directory.
-
-# cd /usr/local
-# mkdir salsa
-# chown -R mail:mail /usr/local/salsa
-
 - Unpack the module and install it.
 
 # tar xvfz Mail-Salsa-x.xx.tar.gz
@@ -11,23 +5,8 @@
 # perl Makefile.PL
 # make
 # make test
-# make install 
-
-# cp bin/cucaracha.conf /etc/cucaracha.conf
-
-- Gentoo Linux
-
-# cd /usr/adm/sm.bin
-# ln -s /usr/bin/cucaracha cucaracha
-
-- RedHat Linux
-
-# cd /etc/smrsh
-# ln -s /usr/bin/cucaracha cucaracha
-
-- Edit cucaracha.conf
-
-# nano cucaracha.conf
+# make install
+# salsaconfig
 
 - Setup sendmail
 
@@ -46,8 +25,6 @@ define(`ALIAS_FILE', `/etc/mail/aliases,/etc/mail/salsa.aliases')dnl
 
 salsa: you@yourdomain.org
 salsa-master: you@yourdomain.org
-
-# touch /etc/mail/salsa.aliases
 
 # newaliases
 # /etc/init.d/sendmail restart
