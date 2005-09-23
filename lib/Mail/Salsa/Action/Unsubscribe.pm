@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Unsubscribe.pm
-# Last Modification: Mon Apr 18 12:07:28 WEST 2005
+# Last Modification: Fri Sep 23 15:24:08 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(&remove_from_list);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub new {
 	my $proto = shift;
@@ -90,14 +90,14 @@ sub process_msg {
 	my $kfile = file_path($self->{'list'}, $self->{'list_dir'}, 'stamp.txt');
 	if(my $stamp = Mail::Salsa::Utils::get_key($kfile)) {
 		if(my $human = Mail::Salsa::Utils::lookup4key($self->{'message'}, $stamp)) {
-			if($self->remove_from_list($file, { $self->{'from'} => 0 })) {
+			if(&remove_from_list($file, { $self->{'from'} => 0 })) {
 				Mail::Salsa::Utils::tplsendmail(
 					smtp_server => $self->{'smtp_server'},
 					timeout     => $self->{'timeout'},
 					label       => "EMAIL_REMOVED",
 					lang        => $self->{'config'}->{'language'},
 					vars        => {
-						from => "Mailing List Owner \<$name\-owner\@$domain\>",
+						from => "$name\-owner\@$domain",
 						to   => $self->{'from'},
 						list => $self->{'list'},
 					}

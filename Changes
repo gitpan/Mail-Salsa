@@ -1,5 +1,11 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.06  Fri Sep 23 15:25:13 WEST 2005
+	- Mail::Salsa - The version has been updated to 0.06.
+	- Mail::Salsa::Action::Unsubscribe - A bug that affected
+	  "remove_from_list" method were fixed. The version has been
+	  updated to 0.04.
+
 0.05  Wed Apr 20 17:04:50 WEST 2005
 	- Mail::Salsa - The version has been updated to 0.05.
 	- The Makefile.PL was changed again to setup the initial
