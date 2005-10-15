@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Post.pm
-# Last Modification: Wed Apr  6 16:03:46 WEST 2005
+# Last Modification: Sat Oct 15 17:16:18 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ use MIME::QuotedPrint qw();
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 SelfLoader->load_stubs();
 
@@ -222,7 +222,7 @@ ENDCODE
 	open(ATTACHMENT, "<", $attachfile) or return("$!");
 	while(<ATTACHMENT>) {
 		next if(/^[\#\x0d\x0a]/);
-		my ($policy, $mime, $addr) = /^(\w+) +(\w+\/\w+) +from +(\S+)[\x0d\x0a]+/;
+		my ($policy, $mime, $addr) = /^(\w+) +(\w+\/[\w\.\-\+]+) +from +(\S+)[\x0d\x0a]+/;
 		if($addr eq "subscribers") {
 			unless($subscriber) {
 				$subscriber = &exist_subscriber($listfile, $from_addr);

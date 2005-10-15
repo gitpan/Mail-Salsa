@@ -1,5 +1,11 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.07  Sat Oct 15 17:23:20 WEST 2005
+	- Mail::Salsa - The version has been updated to 0.07.
+	- Mail::Salsa::Action::Post - Now is possible allow or deny
+	  mime-types like "application/vnd.pwg-xhtml-print+xml". The
+	  version has been updated to 0.02.
+
 0.06  Fri Sep 23 15:25:13 WEST 2005
 	- Mail::Salsa - The version has been updated to 0.06.
 	- Mail::Salsa::Action::Unsubscribe - A bug that affected
