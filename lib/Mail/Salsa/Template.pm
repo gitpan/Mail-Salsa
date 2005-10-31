@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Template.pm
-# Last Modification: Fri Jun 18 14:30:48 WEST 2004
+# Last Modification: Sat Oct 29 20:23:23 WEST 2005
 #
-# Copyright (c) 2004 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -29,7 +29,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # Preloaded methods go here.
 
@@ -95,6 +95,7 @@ sub replace {
 		if($msg) {
 			last if(/^\<\/template\>[\n\r]+/);
 			eval($evalcode);
+			s{^\.}{\.\.};
 			print $outfh $_;
 			next;
 		}
@@ -158,7 +159,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.pt@E<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 by Henrique M. Ribeiro Dias
+Copyright (C) 2005 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

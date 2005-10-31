@@ -236,6 +236,15 @@ unedited.
 
 Blah blah blah.
 
+telnet 192.168.0.1 25
+HELO mysmtp.server.org
+MAIL FROM: hdias@aesbuc.pt
+RCPT TO: test@aesbuc.pt
+DATA
+test
+.
+QUIT
+
 =head2 EXPORT
 
 None by default.

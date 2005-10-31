@@ -1,5 +1,18 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.08  Mon Oct 31 11:09:54 WET 2005
+	- Mail::Salsa - The version has been updated to 0.08.
+	- Mail::Salsa::Action::Admin - The function "check_address" not
+	  return error if the mail address in the end have spaces or tab
+	  characters. The version has been updated to 0.03.
+	- Mail::Salsa::Action::Post - The function "sendmail4all" don't
+	  send a dot "." if the dot it's located at the begin of the
+	  line. This problem has been corrected. The version has been
+	  updated to 0.03.
+	- Mail::Salsa::Template: The function "replace" have the same 
+	  problem of the module above. The version has been updated to 
+	  0.02.
+
 0.07  Sat Oct 15 17:23:20 WEST 2005
 	- Mail::Salsa - The version has been updated to 0.07.
 	- Mail::Salsa::Action::Post - Now is possible allow or deny

@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Admin.pm
-# Last Modification: Tue Apr  5 12:01:12 WEST 2005
+# Last Modification: Sat Oct 29 19:40:03 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -33,7 +33,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my @patterns = (
 	'[^\<\>\@\(\)]+',
@@ -292,15 +292,15 @@ sub check_restrict {
 sub check_address {
 	my $file = shift;
 
-	my $pattern = join("", "^", $patterns[1], "[\x0d\x0a]+");
+	my $pattern = join("", "^", $patterns[1], "[ \t]*[\x0d\x0a]+");
 	my @errors = ();
 	my $n = 0;
 	open(FILE, "<", $file) or die("$!");
 	while(<FILE>) {
 		$n++;
 		next if(/^[\#\x0d\x0a]+/);
-		/^$patterns[0] +<$patterns[1]>[\x0d\x0a]+/ or
-			/^<$patterns[1]>[\x0d\x0a]+/ or 
+		/^$patterns[0] +<$patterns[1]>[ \t]*[\x0d\x0a]+/ or
+			/^<$patterns[1]>[ \t]*[\x0d\x0a]+/ or 
 				/$pattern/ or push(@errors, "Line $n: $_");
 	}
 	close(FILE);

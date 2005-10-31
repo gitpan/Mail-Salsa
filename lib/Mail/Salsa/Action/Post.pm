@@ -1,6 +1,6 @@
 #
 # Mail/Salsa/Action/Post.pm
-# Last Modification: Sat Oct 15 17:16:18 WEST 2005
+# Last Modification: Sat Oct 29 19:23:28 WEST 2005
 #
 # Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ use MIME::QuotedPrint qw();
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 SelfLoader->load_stubs();
 
@@ -255,7 +255,10 @@ sub sendmail4all {
 	my $refsub = sub {
 		my $handle = shift;
 		open(FILE, "<", $outfile) or die("$!");
-		while(<FILE>) { print $handle $_; }
+		while(<FILE>) {
+			s{^\.}{\.\.};
+			print $handle $_;
+		}
 		close(FILE);
 	};
 	my $sm = Mail::Salsa::Sendmail->new(
@@ -517,7 +520,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 by Henrique M. Ribeiro Dias
+Copyright (C) 2005 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,
