@@ -22,7 +22,7 @@ WriteMakefile(
     VERSION_FROM      => 'lib/Mail/Salsa.pm', # finds $VERSION
     PREREQ_PM         => {
 		MIME::Base64  => 3.05,
-		MIME::Explode => 0.37,
+		MIME::Explode => 0.38,
 		Digest::MD5   => 2.33
 	}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005

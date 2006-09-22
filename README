@@ -1,4 +1,4 @@
-Mail-Salsa version 0.08
+Mail-Salsa version 0.09
 =======================
 
 Mail::Salsa is perl module to create and manage email discussion lists
@@ -25,7 +25,7 @@ This module requires these other modules and libraries:
 
   - Digest::MD5   >= 2.33
   - MIME::Base64  >= 3.05
-  - MIME::Explode >= 0.37
+  - MIME::Explode >= 0.38
 
 For more information consult the Mail::Salsa POD document on your system, 
 or look at the tools directory for examples.
@@ -34,7 +34,7 @@ COPYRIGHT AND LICENCE
 
 Put the correct copyright and licence information here.
 
-Copyright (C) 2005 by Henrique M. Ribeiro Dias
+Copyright (C) 2006 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

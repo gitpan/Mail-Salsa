@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Action/Admin.pm
-# Last Modification: Sat Oct 29 19:40:03 WEST 2005
+# Last Modification: Fri Sep 22 18:05:28 WEST 2006
 #
-# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2006 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -33,7 +33,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my @patterns = (
 	'[^\<\>\@\(\)]+',
@@ -200,6 +200,7 @@ sub replace_list {
 	my $newfile = shift;
 	my $oldfile = shift;
 
+	my %inserted = ();
 	open(NEW, "<", $newfile) or die("$!");
 	open(OLD, ">", $oldfile) or die("$!");
 	select(OLD);
@@ -207,7 +208,9 @@ sub replace_list {
 		if(/^\#/) { print OLD $_; next; }
 		my ($addr, $name) = @{&normalize($_)};
 		$addr or next;
+		next if(exists($inserted{$addr}));
 		print OLD $name ? "$name <$addr>" : $addr, "\n";
+		$inserted{$addr} = "";
 	}
 	close(OLD);
 	close(NEW);
@@ -608,7 +611,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005 by Henrique M. Ribeiro Dias
+Copyright (C) 2006 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

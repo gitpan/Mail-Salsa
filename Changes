@@ -1,5 +1,11 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.09  Fri Sep 22 18:23:18 WEST 2006
+	- Mail::Salsa - The version has been updated to 0.09.
+	- Mail::Salsa::Action::Admin - Now, when the list is submitted
+	  the system removes the duplicate e-mail addresses automatically
+	  from the list. The version has been updated to 0.04.
+
 0.08  Mon Oct 31 11:09:54 WET 2005
 	- Mail::Salsa - The version has been updated to 0.08.
 	- Mail::Salsa::Action::Admin - The function "check_address" not
