@@ -1,5 +1,12 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.10  Wed Oct 18 12:11:27 WEST 2006
+	- Mail::Salsa - The version has been updated to 0.10.
+	- Mail::Salsa::Utils - The subscribe action not work, because
+	  the check4email function don't remove the newline from the end
+	  of an string. This problem has been fixed and the version was
+	  changed to 0.04.
+
 0.09  Fri Sep 22 18:23:18 WEST 2006
 	- Mail::Salsa - The version has been updated to 0.09.
 	- Mail::Salsa::Action::Admin - Now, when the list is submitted

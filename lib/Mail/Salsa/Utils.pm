@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Utils.pm
-# Last Modification: Tue Apr 19 20:01:33 WEST 2005
+# Last Modification: Wed Oct 18 12:07:19 WEST 2006
 #
-# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2006 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -35,7 +35,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(&file_path &generate_id &string_date &host_addresses &create_file &email_components &make_dir_rec);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my @patterns = (
 	'[^\<\>\@\(\)]+',
@@ -148,7 +148,8 @@ sub check4email {
 	@hash{@{$array}} = (0 .. $#{$array});
 	open(LIST, "<", $file) or die("$!");
 	while(<LIST>) { 
-		chomp;
+		next if(/^\#/);
+		s/[\r\n]+$//;
 		/\<?($patterns[1])\>?/o;
 		$1 or next;
 		push(@emexist, $1) if(exists($hash{$1}));
@@ -256,7 +257,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.pt@E<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005 by Henrique M. Ribeiro Dias
+Copyright (C) 2006 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

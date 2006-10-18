@@ -1,6 +1,6 @@
 #
 # Mail/Salsa.pm
-# Last Modification: Fri Sep 22 18:03:05 WEST 2006
+# Last Modification: Wed Oct 18 12:11:02 WEST 2006
 #
 # Copyright (c) 2006 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 sub new {
 	my $proto = shift;
