@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Action/Post.pm
-# Last Modification: Sat Oct 29 19:23:28 WEST 2005
+# Last Modification: Mon Nov 06 13:19:48 WET 2006
 #
-# Copyright (c) 2005 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2006 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -31,7 +31,7 @@ use MIME::QuotedPrint qw();
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 SelfLoader->load_stubs();
 
@@ -182,7 +182,7 @@ sub setup_stamp {
 		$newstamp = 1 if(int($days/7) > $number);
 	} elsif($letter eq "m") {
 		$newstamp = 1 if(int($days/30) > $number);
-	} elsif($letter eq "m") {
+	} elsif($letter eq "y") {
 		$newstamp = 1 if(int($days/365) > $number);
 	}
 	if($newstamp) {
@@ -520,7 +520,7 @@ Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005 by Henrique M. Ribeiro Dias
+Copyright (C) 2006 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,
