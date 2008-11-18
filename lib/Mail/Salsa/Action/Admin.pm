@@ -1,8 +1,9 @@
 #
 # Mail/Salsa/Action/Admin.pm
-# Last Modification: Fri Sep 22 18:05:28 WEST 2006
+# Last Modification: Thu Nov 13 15:05:52 WET 2008
 #
-# Copyright (c) 2006 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2008 Henrique Dias <henrique.ribeiro.dias@gmail.com>.
+# All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -33,11 +34,11 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 my @patterns = (
 	'[^\<\>\@\(\)]+',
-	'[^\@<>(),;:\s]+\@([\w\-]+\.)+[a-zA-Z]{2,4}',
+	'[^\000-\037\300-\377\@<>(),;:\s]+\@([\w\-]+\.)+[a-zA-Z]{2,4}',
 	'(allow|deny) +(\S+) +to +(post|bounce|proceed) +from +(localnet|anywhere)(.+)?',
 );
 

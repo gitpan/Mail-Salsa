@@ -1,5 +1,12 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.12  Thu Nov 13 15:10:01 WET 2008
+	- Mail::Salsa - The version has been updated to 0.12.
+	- Mail::Salsa::Utils - Check if a mail address have characters with
+	  accents. The version has been updated to 0.05.
+	- Mail::Salsa::Admin - Check if a mail address have characters with
+	  accents. The version has been updated to 0.05.
+
 0.11  Mon Nov 06 16:55:18 WET 2006
 	- Mail::Salsa - The version has been updated to 0.11.
 	- Mail::Salsa::Action::Post - This release fix a incorrect
