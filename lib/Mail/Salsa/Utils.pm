@@ -254,7 +254,7 @@ If you have a web site set up for your module, mention it here.
 
 =head1 AUTHOR
 
-Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.pt@E<gt>
+Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

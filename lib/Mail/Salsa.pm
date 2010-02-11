@@ -1,8 +1,8 @@
 #
 # Mail/Salsa.pm
-# Last Modification: Thu Nov 13 15:09:09 WET 2008
+# Last Modification: Thu Feb 11 19:36:50 WET 2010
 #
-# Copyright (c) 2008 Henrique Dias <henrique.ribeiro.dias@gmail.com>.
+# Copyright (c) 2010 Henrique Dias <henrique.ribeiro.dias@gmail.com>.
 # All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -25,7 +25,7 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 sub new {
 	my $proto = shift;
@@ -54,7 +54,7 @@ sub new {
 	my $line_from = <$fh>;
 	my ($from) = ($line_from =~ /^From +([^ ]+) +/);
 	$from or return(undef);
-	$self->{'from'} = $from;
+	$self->{'from'} = lc($from);
 	$self->parse_stream();
 	delete($self->{'filehandle'});
 	TEST: {
@@ -228,11 +228,11 @@ Mailing list: salsa-dev@aesbuc.pt
 
 =head1 AUTHOR
 
-Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
+Henrique M. Ribeiro Dias, E<lt>henrique.ribeiro.dias@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2006 by Henrique M. Ribeiro Dias
+Copyright (C) 2010 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

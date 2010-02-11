@@ -27,7 +27,7 @@ WriteMakefile(
 	}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Mail/Salsa.pm', # retrieve abstract from module
-       AUTHOR         => 'Henrique M. Riberiro Dias <hdias@aesbuc.pt>') : ()),
+       AUTHOR         => 'Henrique M. Riberiro Dias <henrique.ribeiro.dias@gmail.com>') : ()),
     EXE_FILES         => [ map { "bin/$_" } @scripts ],
     INSTALLSCRIPT     => $DEFAULTINSTSCRIPT
 );

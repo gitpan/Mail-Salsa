@@ -1,5 +1,10 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.13  Thu Feb 11 19:40:25 WET 2010
+	- Mail::Salsa - The version has been updated to 0.13.
+        - Mail::Salsa - The problem of the addresses are in upper or lower
+          case has been fixed. Now all addresses are converted to lowercase.
+
 0.12  Thu Nov 13 15:10:01 WET 2008
 	- Mail::Salsa - The version has been updated to 0.12.
 	- Mail::Salsa::Utils - Check if a mail address have characters with
