@@ -1,8 +1,9 @@
 #
 # Mail/Salsa/Action/Post.pm
-# Last Modification: Mon Nov 06 13:19:48 WET 2006
+# Last Modification: Wed Mar 17 19:11:38 WET 2010
 #
-# Copyright (c) 2006 Henrique Dias <hdias@aesbuc.pt>. All rights reserved.
+# Copyright (c) 2010 Henrique Dias <henrique.ribeiro.dias@gmail.com>.
+# All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
 #
@@ -31,7 +32,7 @@ use MIME::QuotedPrint qw();
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 SelfLoader->load_stubs();
 
@@ -160,8 +161,8 @@ sub check4bounces {
 
 	my $bounce = 1;
 	my $list = $self->{'list'};
-	$bounce = 0 if($self->{'headers'}->{'0.0'}->{'to'} =~ /\b$list\b/);
-	$bounce = 0 if(exists($self->{'headers'}->{'0.0'}->{'cc'}) && $self->{'headers'}->{'0.0'}->{'cc'} =~ /\b$list\b/);
+	$bounce = 0 if(lc($self->{'headers'}->{'0.0'}->{'to'}) =~ /\b$list\b/);
+	$bounce = 0 if(exists($self->{'headers'}->{'0.0'}->{'cc'}) && lc($self->{'headers'}->{'0.0'}->{'cc'}) =~ /\b$list\b/);
 	$bounce = 2 if(exists($self->{'headers'}->{'0.0'}->{'x-been-there'}) && $self->{'headers'}->{'0.0'}->{'x-been-there'} eq $self->{'list'});
 
 	return($bounce);
@@ -516,11 +517,11 @@ If you have a web site set up for your module, mention it here.
 
 =head1 AUTHOR
 
-Henrique M. Ribeiro Dias, E<lt>hdias@aesbuc.ptE<gt>
+Henrique M. Ribeiro Dias, E<lt>henrique.ribeiro.dias@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2006 by Henrique M. Ribeiro Dias
+Copyright (C) 2010 by Henrique M. Ribeiro Dias
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,

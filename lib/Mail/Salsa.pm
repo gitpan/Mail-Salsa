@@ -1,6 +1,6 @@
 #
 # Mail/Salsa.pm
-# Last Modification: Thu Feb 11 19:36:50 WET 2010
+# Last Modification: Wed Mar 17 19:20:54 WET 2010
 #
 # Copyright (c) 2010 Henrique Dias <henrique.ribeiro.dias@gmail.com>.
 # All rights reserved.
@@ -25,7 +25,7 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 sub new {
 	my $proto = shift;

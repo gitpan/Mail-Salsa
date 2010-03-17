@@ -1,5 +1,11 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.14  Wed Mar 17 19:19:29 WET 2010
+	- Mail::Salsa - The version has been updated to 0.14.
+	- Mail::Salsa::Action::Post - The verification of the message to
+	  see if it's a bounce, is now done correctly. The version has
+          been updated to 0.05.
+
 0.13  Thu Feb 11 19:40:25 WET 2010
 	- Mail::Salsa - The version has been updated to 0.13.
         - Mail::Salsa - The problem of the addresses are in upper or lower
