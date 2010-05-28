@@ -1,8 +1,8 @@
 #
 # Mail/Salsa/Action/Admin.pm
-# Last Modification: Thu Nov 13 15:05:52 WET 2008
+# Last Modification: Fri May 28 19:23:49 WEST 2010
 #
-# Copyright (c) 2008 Henrique Dias <henrique.ribeiro.dias@gmail.com>.
+# Copyright (c) 2010 Henrique Dias <henrique.ribeiro.dias@gmail.com>.
 # All rights reserved.
 # This module is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -34,7 +34,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 my @patterns = (
 	'[^\<\>\@\(\)]+',
@@ -207,6 +207,7 @@ sub replace_list {
 	select(OLD);
 	while(<NEW>) {
 		if(/^\#/) { print OLD $_; next; }
+		/[\x0d\x0a]+$/ or $_ .= "\n" if(eof(NEW));
 		my ($addr, $name) = @{&normalize($_)};
 		$addr or next;
 		next if(exists($inserted{$addr}));
@@ -303,6 +304,7 @@ sub check_address {
 	while(<FILE>) {
 		$n++;
 		next if(/^[\#\x0d\x0a]+/);
+		/[\x0d\x0a]+$/ or $_ .= "\n" if(eof(FILE));
 		/^$patterns[0] +<$patterns[1]>[ \t]*[\x0d\x0a]+/ or
 			/^<$patterns[1]>[ \t]*[\x0d\x0a]+/ or 
 				/$pattern/ or push(@errors, "Line $n: $_");

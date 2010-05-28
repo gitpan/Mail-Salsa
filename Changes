@@ -1,5 +1,11 @@
 Revision history for Perl extension Mail::Salsa.
 
+0.15  Fri May 28 19:27:17 WEST 2010
+	- Mail::Salsa - The version has been updated to 0.15.
+	- Mail::Salsa::Action::Admin - The problem with the file "list.txt"
+	  without the new line at the end of the file was fixed. The version
+	  has been updated to 0.06.
+
 0.14  Wed Mar 17 19:19:29 WET 2010
 	- Mail::Salsa - The version has been updated to 0.14.
 	- Mail::Salsa::Action::Post - The verification of the message to
